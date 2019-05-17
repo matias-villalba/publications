@@ -1,0 +1,21 @@
+service: publications-api
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  publications:
+    handler: publications.get
+    events:
+      - http:
+          path: publications
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0 # for docker container hosting
