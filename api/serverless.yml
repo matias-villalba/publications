@@ -13,6 +13,21 @@ functions:
           method: get
           cors: true
 
+  create-publication:
+    handler: src/publications.create
+    events:
+      - http:
+          path: publications
+          method: post
+          cors: true
+
+  authors:
+    handler: src/authors.create
+    events:
+      - http:
+          path: authors
+          method: post
+          cors: true
 plugins:
   - serverless-offline
 
