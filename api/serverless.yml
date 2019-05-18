@@ -6,7 +6,7 @@ provider:
 
 functions:
   publications:
-    handler: publications.get
+    handler: src/publications.get
     events:
       - http:
           path: publications
