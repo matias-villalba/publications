@@ -25,7 +25,7 @@ module.exports.get = async (event) => {
 module.exports.getById = async (event) => {
   try{
     console.log('before get publication')
-    const publication = await Publication.findOne({ include: [ Author ] }, {where: {id: event.pathParameters.publicationId} })
+    const publication = await Publication.findOne({where: {id: event.pathParameters.publicationId} }, { include: [ Author ] } )
     console.log('after get publication')
     console.log(JSON.stringify(publication, null, 2))
 
