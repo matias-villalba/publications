@@ -1,9 +1,11 @@
 'use strict'
 const Sequelize = require('sequelize');
 
-// Option 1: Passing parameters separately
-const sequelize =  new Sequelize('publications', 'publicationsadmin', 'publicationsadmin', {
-  host: 'localhost',
+const connectionUri = (process.env.DATABASE_CONNECTION_URI || 'postgres://publicationsadmin:publicationsadmin@localhost:5432/publications')
+console.log('connectionUri:' +connectionUri )
+
+//const sequelize = new Sequelize('postgres://publicationsadmin:publicationsadmin@localhost:5432/publications', {
+const sequelize = new Sequelize(connectionUri, {
   dialect: 'postgres',
   pool: {
     max: 1000,
@@ -11,5 +13,6 @@ const sequelize =  new Sequelize('publications', 'publicationsadmin', 'publicati
     acquire: 30000,
     idle: 10000
   }
-});
+})
+
 module.exports = sequelize

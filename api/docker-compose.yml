@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  postgres-db:
+    image: postgres:11
+    environment:
+      - POSTGRES_DB=publications
+    volumes:
+      - ./scripts/ddl.sql:/docker-entrypoint-initdb.d/1-ddl.sql
+      - ./scripts/user-creation.sql:/docker-entrypoint-initdb.d/2-user-creation.sql
+      - ./scripts/initial-data.sql:/docker-entrypoint-initdb.d/3-initial-data.sql
+
+  publications-api:
+    build:
+      context: .
+    environment:
+      - DATABASE_CONNECTION_URI=postgres://publicationsuser:publicationspass@postgres-db:5432/publications
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres-db
+    links:
+      - "postgres-db:postgres-db"
+    volumes:
+      - ./scripts/wait-for-it.sh:/opt/app/wait-for-it.sh
+      - ./src:/opt/app/src
+    command: ["./wait-for-it.sh", "postgres-db:5432", "--", "node", "./node_modules/serverless/bin/serverless", "offline"]

@@ -1,6 +1,7 @@
 'use strict'
-const Sequelize = require('sequelize');
-const sequelize = require('../db/connection');
+const Sequelize = require('sequelize')
+const sequelize = require('../db/connection')
+const Author = require('./Author');
 
 class Publication extends Sequelize.Model {}
 Publication.init({
@@ -13,6 +14,15 @@ Publication.init({
   timestamps: false,
   underscored: true,
   sequelize, modelName: 'publication' });
+
+
+Publication.findWithSummarizedBody = () => {
+   return Publication.findAll({ include: [ Author ], attributes: {
+      include: [[sequelize.fn('LEFT', sequelize.col('body'), 40), 'summarizedBody']],
+      exclude: ['body', 'authorId']
+      }
+   })
+}
 
 module.exports = Publication
 
