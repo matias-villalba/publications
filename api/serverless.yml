@@ -47,6 +47,14 @@ functions:
               paths:
                 publicationId: true
 
+  get-publication-by-title:
+    handler: src/publications.getByTitle
+    events:
+      - http:
+          path: publications/matches/titles
+          method: get
+          cors: true
+
   update-publication:
     handler: src/publications.update
     events:

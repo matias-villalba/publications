@@ -1,10 +1,37 @@
 'use strict'
 const {Publication, Author} = require('./model')
 
+const DEFAULT_ITEMS_PER_PAGE = 5
+const DEFAULT_SINCE_OR_UNTIL = 'until'
+//delimiterItemId
+//itemsPerPage
+//sinceOrUntilDatetime  (since | until)
+//datetime
+
+const getFindingStrategy = (condition)=>{
+  const order = condition.newestFirst?'DESC':'ASC'
+  if(!condition.datetime || !condition.delimiterItemId){
+    return (itemsPerPage, datetime, delimiterItemId) => Publication.findOrderByDatetime(itemsPerPage, order)
+  }
+  return (condition.sinceOrUntilDatetime === 'since')?
+      ((itemsPerPage, datetime, delimiterItemId) => Publication.findSinceADate(itemsPerPage, order, datetime, delimiterItemId) )
+      : ((itemsPerPage, datetime, delimiterItemId) => Publication.findUntilADate(itemsPerPage, order, datetime, delimiterItemId ))
+}
+
 module.exports.get = async (event) => {
   try{
     console.log('before find publications')
-    const publications = await Publication.findAll({ include: [ Author ] })
+
+    const queryStringParameters = event.queryStringParameters? event.queryStringParameters : {}
+    const {delimiterItemId, datetime} = queryStringParameters
+
+    const itemsPerPage = queryStringParameters.itemsPerPage? queryStringParameters.itemsPerPage: DEFAULT_ITEMS_PER_PAGE
+    const sinceOrUntilDatetime = queryStringParameters.sinceOrUntilDatetime? queryStringParameters.sinceOrUntilDatetime: DEFAULT_SINCE_OR_UNTIL
+    const newestFirst = queryStringParameters.newestFirst === undefined ? true : !(queryStringParameters.newestFirst.toLowerCase() == 'false')
+
+    const findPublications = getFindingStrategy({datetime, delimiterItemId, sinceOrUntilDatetime, newestFirst})
+    const publications = await findPublications(itemsPerPage, datetime, delimiterItemId)
+
     console.log('after find publications')
     console.log(JSON.stringify(publications, null, 2))
 
@@ -22,10 +49,34 @@ module.exports.get = async (event) => {
   }
 }
 
+
+module.exports.getByTitle = async (event) => {
+  try{
+
+    console.log('before get publication')
+    const publication = await Publication.findByTitle(10, event.queryStringParameters.publicationTitle)
+    console.log('after get publication')
+    console.log(JSON.stringify(publication, null, 2))
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(publication, null, 2),
+    }
+
+  }catch(e){
+    console.log('errror')
+    console.log(e)
+    return {
+      statusCode: 500
+    }
+  }
+}
+
+
 module.exports.getById = async (event) => {
   try{
     console.log('before get publication')
-    const publication = await Publication.findOne({where: {id: event.pathParameters.publicationId} }, { include: [ Author ] } )
+    const publication = await Publication.findOne({where: {id: event.pathParameters.publicationId}, include: [ Author ] } )
     console.log('after get publication')
     console.log(JSON.stringify(publication, null, 2))
 
