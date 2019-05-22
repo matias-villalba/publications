@@ -37,7 +37,7 @@ const App = (props) => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
           <Typography variant="subtitle1" gutterBottom>
-              Publication by title:
+              Publications App
             </Typography>
           </Paper>  
 
@@ -51,10 +51,10 @@ const App = (props) => {
           
         </Grid>
         <Grid item xs={9}>
-          
-
-              <h2>Publications</h2>
-              
+        <Paper className={classes.paper}>          
+          <h2>Publications</h2>
+        </Paper>
+    
             <Publications />
 
         </Grid>

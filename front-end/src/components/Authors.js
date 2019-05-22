@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAuthors } from "../actions/index";
-import Moment from 'react-moment';
-import 'moment-timezone';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import AuthorButton from "./AuthorButton"
 
 const styles = theme => ({
   root: {
@@ -30,13 +29,7 @@ export class Authors extends Component {
     return (
       <List component="nav">
             {this.props.authors.map(author => (
-
-          <ListItem button key={author.id} >
-            <ListItemText  primary={ author.firstName.concat(' ').concat(author.lastName)} secondary={author.email} />
-            <Divider/>   
-          </ListItem>
-          
-
+              <AuthorButton id={author.id} firstName={author.firstName} lastName={author.lastName} email={author.email} birthdate={author.birthdate} />
           ))}  
         </List>
 

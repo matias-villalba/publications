@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {searchPublicationsByTitle} from "../actions"
 import uuidv1 from "uuid";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -16,10 +17,12 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 
 const styles = {
   root: {
+    'margin-bottom': '22px',
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
     width: 400,
+
   },
   input: {
     marginLeft: 8,
@@ -38,7 +41,7 @@ const styles = {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    searchPublicationsByTitle: title => dispatch(searchPublicationsByTitle(title))    
   };
 }
 class Search extends Component {
@@ -52,11 +55,12 @@ class Search extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
+//    this.setState({ [event.target.id]: event.target.value });
   }
-  handleSearch(event) {
 
-    alert(this.state.titleToSearch)
+  handleSearch(event) {
+    const publicationTitle = this.state.titleToSearch
+    this.props.searchPublicationsByTitle({publicationTitle})
   }
 
 
@@ -71,7 +75,7 @@ class Search extends Component {
         </IconButton>
         <Divider className={classes.divider} />
       </Paper>
-    );
+    )
   }
 }
 

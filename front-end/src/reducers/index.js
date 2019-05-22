@@ -1,10 +1,12 @@
-import {PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER, AUTHORS_LOADED, ADD_ARTICLE, NEXT_DATA_LOADED ,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS} from "../constants/action-types"
+import {CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER, AUTHORS_LOADED, SEARCH_DATA_LOADED, NEXT_DATA_LOADED ,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS} from "../constants/action-types"
 import {ITEMS_PER_PAGE, DEFAULT_NEWEST_FIRST} from "../constants/configs" 
 const initialState = {
     authors: [],
+
+    currentAuthor:{},
+
     remotePublications: [],
     
-//    currentPage:{},
     showNewestPublicationsFirst: true,
     
     pagination: {
@@ -34,10 +36,8 @@ const initialState = {
   };
   function rootReducer(state = initialState, action) {
 
-    if (action.type === ADD_ARTICLE) {
-      return Object.assign({}, state, {
-          articles: state.articles.concat(action.payload)
-        });
+    if (action.type === SEARCH_DATA_LOADED) {
+      return { ...state, remotePublications: action.payload }      
     }    
 
     if (action.type === AUTHORS_LOADED) {      
@@ -46,8 +46,14 @@ const initialState = {
     if (action.type === CHANGE_PUBLICATIONS_ORDER) {      
       return { ...state, showNewestPublicationsFirst: action.payload }
     }
+ 
+    if (action.type === PUT_AUTHOR_DATA) {      
+      return { ...state, currentAuthor: action.payload }
+    }
+    if (action.type === CLEAR_AUTHOR_DATA) {      
+      return { ...state, currentAuthor: {} }
+    }
     
-
 
     if (action.type === NEWEST_DATA_LOADED) {      
         return { ...state, remotePublications: action.payload }

@@ -6,11 +6,12 @@ import Post from "./Posts"
 import { withStyles } from '@material-ui/core/styles';
 
 import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel';
+import Divider from '@material-ui/core/Divider';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Search from "./Search"
+import AuthorCard from "./AuthorCard"
 
 const styles = theme => ({
   root: {
@@ -54,7 +55,11 @@ class Publications extends Component {
       
         <div>
         <FormControl className={classes.formControl}>
-          <Search />
+        
+          {(!this.props.currentAuthor || !this.props.currentAuthor.id)?
+            (<Search />):''
+          }
+          <AuthorCard/>
 
           <NativeSelect defaultValue={this.props.showNewestPublicationsFirst} input={<Input name="name" id="publications-order" 
             onChange={this.changePublicationsOrder}
@@ -86,6 +91,7 @@ const mapStateToProps = state => {
            nextButton: state.pagination.nextButton,
             previousButton:state.pagination.previousButton,
 
+            currentAuthor: state.currentAuthor,
             showNewestPublicationsFirst: state.showNewestPublicationsFirst,
         };
 };

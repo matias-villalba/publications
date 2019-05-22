@@ -1,15 +1,32 @@
-import {CHANGE_PUBLICATIONS_ORDER, ADD_ARTICLE, NEXT_DATA_LOADED, PREVIOUS_DATA_LOADED } from "../constants/action-types";
+import {CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, CHANGE_PUBLICATIONS_ORDER, NEXT_DATA_LOADED, PREVIOUS_DATA_LOADED } from "../constants/action-types";
 import axios from "axios";
 
-  export function addArticle(payload) {
-    return { type: ADD_ARTICLE, payload }
+
+
+  export function clearAuthorCard(payload) {
+    return { type: CLEAR_AUTHOR_DATA, payload }
+  }
+
+  export function putAuthorData(payload) {
+    return { type: PUT_AUTHOR_DATA, payload }
   }
 
   export function changePublicationsOrder(payload) {
     return { type: CHANGE_PUBLICATIONS_ORDER, payload }
   }
   
-  
+  export function searchPublicationsByTitle(payload) {
+    return function(dispatch) {
+      axios.get('http://localhost:3000/publications/matches/titles', {
+        params:payload
+      })
+        .then(response => {
+          dispatch({ type: "SEARCH_DATA_LOADED", payload: response.data })
+        })
+    }
+  }
+
+
   
   export function getAuthors() {
     return function(dispatch) {
@@ -21,7 +38,7 @@ import axios from "axios";
   }
 
 
-export function getData(payload) {
+  export function getData(payload) {
     return function(dispatch) {
       axios.get('http://localhost:3000/publications', {
         params:payload
