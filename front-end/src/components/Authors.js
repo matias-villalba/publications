@@ -27,7 +27,7 @@ export class Authors extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <List component="nav">
+      <List component="nav" style={{maxHeight: '825px', overflow: 'scroll'}} >
             {this.props.authors.map(author => (
               <AuthorButton id={author.id} firstName={author.firstName} lastName={author.lastName} email={author.email} birthdate={author.birthdate} />
           ))}  

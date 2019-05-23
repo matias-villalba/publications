@@ -3,14 +3,12 @@ const {Publication, Author} = require('./model')
 
 const DEFAULT_ITEMS_PER_PAGE = 5
 const DEFAULT_SINCE_OR_UNTIL = 'until'
-//delimiterItemId
-//itemsPerPage
-//sinceOrUntilDatetime  (since | until)
-//datetime
 
-//Publication.findByAuthorIdOrderByDatetime (limit, order, authorId)
-//Publication.findByAuthorSinceADate (limit, order, datetime, delimiterItemId, authorId)
-//Publication.findByAuthorUntilADate (limit, order, datetime, delimiterItemId, authorId)
+const  headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      }
+
 
 const getFindingStrategy = (condition)=>{
   const order = condition.newestFirst?'DESC':'ASC'
@@ -50,6 +48,7 @@ module.exports.get = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(publications, null, 2),
     }
 
@@ -73,6 +72,7 @@ module.exports.getByTitle = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(publication, null, 2),
     }
 
@@ -95,6 +95,7 @@ module.exports.getById = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(publication, null, 2),
     }
 
@@ -116,6 +117,7 @@ module.exports.getWithSummarizedBody = async (event) => {
     console.log(JSON.stringify(publications, null, 2))
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(publications, null, 2),
     }
 
@@ -144,6 +146,7 @@ module.exports.create = async (event) => {
     console.log('publication persisted with id'+result.id)
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(result, null, 2),
     }
 
@@ -171,6 +174,7 @@ module.exports.update = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(result, null, 2),
     }
 
@@ -194,6 +198,7 @@ module.exports.delete = async (event) => {
     console.log(JSON.stringify(result, null, 2))
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(result, null, 2),
     }
 

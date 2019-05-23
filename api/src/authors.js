@@ -1,6 +1,11 @@
 'use strict'
 const {Author} = require('./model')
 
+const  headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Credentials': true
+}
+
 module.exports.create = async (event) => {
 
   try{
@@ -13,6 +18,7 @@ module.exports.create = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify({id:persistedAuthor.id}, null, 2),
     }
 
@@ -39,6 +45,7 @@ module.exports.update = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(result, null, 2),
     }
 
@@ -62,6 +69,7 @@ module.exports.delete = async (event) => {
     console.log(JSON.stringify(result, null, 2))
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(result, null, 2),
     }
 
@@ -86,6 +94,7 @@ module.exports.get = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(authors, null, 2),
     }
 
@@ -108,6 +117,7 @@ module.exports.getById = async (event) => {
 
     return {
       statusCode: 200,
+      headers:headers,
       body: JSON.stringify(author, null, 2),
     }
 

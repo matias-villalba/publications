@@ -2,6 +2,7 @@ import {CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, CHANGE_PUBLICATIONS_ORDER, NEXT_DATA
 import axios from "axios";
 
 
+const HOST = process.env.REACT_APP_API_HOST_AND_PORT
 
   export function clearAuthorCard(payload) {
     return { type: CLEAR_AUTHOR_DATA, payload }
@@ -17,7 +18,7 @@ import axios from "axios";
   
   export function searchPublicationsByTitle(payload) {
     return function(dispatch) {
-      axios.get('http://localhost:3000/publications/matches/titles', {
+      axios.get(HOST+'/publications/matches/titles', {
         params:payload
       })
         .then(response => {
@@ -30,7 +31,7 @@ import axios from "axios";
   
   export function getAuthors() {
     return function(dispatch) {
-      axios.get('http://localhost:3000/authors')
+      axios.get(HOST+'/authors')
         .then(response => {
           dispatch({ type: "AUTHORS_LOADED", payload: response.data })
         })
@@ -40,7 +41,7 @@ import axios from "axios";
 
   export function getData(payload) {
     return function(dispatch) {
-      axios.get('http://localhost:3000/publications', {
+      axios.get(HOST+'/publications', {
         params:payload
       })
         .then(response => {
@@ -51,7 +52,7 @@ import axios from "axios";
   
   export function loadNextPublications(payload) {
     return function(dispatch) {
-      axios.get('http://localhost:3000/publications', {
+      axios.get(HOST+'/publications', {
         params: payload
       })
         .then(response => {
@@ -62,7 +63,7 @@ import axios from "axios";
 
   export function loadPreviousPublications(payload) {
     return function(dispatch) {
-      axios.get('http://localhost:3000/publications', {
+      axios.get(HOST+'/publications', {
         params: payload
       })
         .then(response => {

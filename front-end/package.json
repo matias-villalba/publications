@@ -18,10 +18,12 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "PORT=3004 react-scripts start",
+    "start_local": "REACT_APP_API_HOST_AND_PORT=http://localhost:3000 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync build/ s3://publications-react-front"
   },
   "eslintConfig": {
     "extends": "react-app"

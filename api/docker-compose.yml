@@ -24,4 +24,4 @@ services:
     volumes:
       - ./scripts/wait-for-it.sh:/opt/app/wait-for-it.sh
       - ./src:/opt/app/src
-    command: ["./wait-for-it.sh", "postgres-db:5432", "--", "node", "./node_modules/serverless/bin/serverless", "offline"]
+    command: ["./wait-for-it.sh", "postgres-db:5432", "--", "./node_modules/serverless/bin/serverless", "offline"]
