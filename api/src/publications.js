@@ -8,14 +8,27 @@ const DEFAULT_SINCE_OR_UNTIL = 'until'
 //sinceOrUntilDatetime  (since | until)
 //datetime
 
+//Publication.findByAuthorIdOrderByDatetime (limit, order, authorId)
+//Publication.findByAuthorSinceADate (limit, order, datetime, delimiterItemId, authorId)
+//Publication.findByAuthorUntilADate (limit, order, datetime, delimiterItemId, authorId)
+
 const getFindingStrategy = (condition)=>{
   const order = condition.newestFirst?'DESC':'ASC'
   if(!condition.datetime || !condition.delimiterItemId){
-    return (itemsPerPage, datetime, delimiterItemId) => Publication.findOrderByDatetime(itemsPerPage, order)
+    return (condition.authorId)?
+        (itemsPerPage, datetime, delimiterItemId) => Publication.findByAuthorIdOrderByDatetime(itemsPerPage, order, condition.authorId):
+        (itemsPerPage, datetime, delimiterItemId) => Publication.findOrderByDatetime(itemsPerPage, order)
   }
-  return (condition.sinceOrUntilDatetime === 'since')?
-      ((itemsPerPage, datetime, delimiterItemId) => Publication.findSinceADate(itemsPerPage, order, datetime, delimiterItemId) )
-      : ((itemsPerPage, datetime, delimiterItemId) => Publication.findUntilADate(itemsPerPage, order, datetime, delimiterItemId ))
+  if(condition.sinceOrUntilDatetime === 'since'){
+    return (condition.authorId)?
+        ((itemsPerPage, datetime, delimiterItemId) => Publication.findByAuthorSinceADate(itemsPerPage, order, datetime, delimiterItemId, condition.authorId) ):
+          ((itemsPerPage, datetime, delimiterItemId) => Publication.findSinceADate(itemsPerPage, order, datetime, delimiterItemId) )
+  }else{
+    return (condition.authorId)?
+      ((itemsPerPage, datetime, delimiterItemId) => Publication.findByAuthorUntilADate(itemsPerPage, order, datetime, delimiterItemId, condition.authorId )):
+    ((itemsPerPage, datetime, delimiterItemId) => Publication.findUntilADate(itemsPerPage, order, datetime, delimiterItemId ))
+  }
+
 }
 
 module.exports.get = async (event) => {
@@ -23,13 +36,13 @@ module.exports.get = async (event) => {
     console.log('before find publications')
 
     const queryStringParameters = event.queryStringParameters? event.queryStringParameters : {}
-    const {delimiterItemId, datetime} = queryStringParameters
+    const {delimiterItemId, datetime, authorId} = queryStringParameters
 
     const itemsPerPage = queryStringParameters.itemsPerPage? queryStringParameters.itemsPerPage: DEFAULT_ITEMS_PER_PAGE
     const sinceOrUntilDatetime = queryStringParameters.sinceOrUntilDatetime? queryStringParameters.sinceOrUntilDatetime: DEFAULT_SINCE_OR_UNTIL
     const newestFirst = queryStringParameters.newestFirst === undefined ? true : !(queryStringParameters.newestFirst.toLowerCase() == 'false')
 
-    const findPublications = getFindingStrategy({datetime, delimiterItemId, sinceOrUntilDatetime, newestFirst})
+    const findPublications = getFindingStrategy({datetime, delimiterItemId, sinceOrUntilDatetime, newestFirst, authorId})
     const publications = await findPublications(itemsPerPage, datetime, delimiterItemId)
 
     console.log('after find publications')

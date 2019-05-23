@@ -35,6 +35,17 @@ Publication.findOrderByDatetime = (limit, order) => {
   })
 }
 
+Publication.findByAuthorIdOrderByDatetime = (limit, order, authorId) => {
+  return Publication.findAll({
+    where:{authorId:authorId},
+    order: [['publicationDatetime', order],['id', order]],
+    limit: limit,
+    include: [ Author ]
+  })
+}
+
+
+
 Publication.findByTitle = (limit, title) => {
 
   return Publication.findAll({include: [ Author ],
@@ -47,6 +58,51 @@ Publication.findByTitle = (limit, title) => {
   });
 
 
+}
+
+
+Publication.findByAuthorSinceADate = (limit, order, datetime, delimiterItemId, authorId) => {
+  return Publication.findAll({where: {
+    [and]:[
+      {authorId:authorId},
+      {
+    [or]:[
+      {[and]:[
+        {publicationDatetime:datetime},
+        {id: {[gt]: delimiterItemId}}
+      ]},
+      {publicationDatetime: {[gt]: datetime}}
+    ]
+
+      }
+    ]
+  },
+    order: [['publicationDatetime', order],['id', order]],
+    limit: limit,
+    include: [ Author ]
+  })
+
+}
+
+Publication.findByAuthorUntilADate = (limit, order, datetime, delimiterItemId, authorId) => {
+    return Publication.findAll({where: {
+      [and]:[
+        {authorId:authorId},
+        {
+      [or]:[
+        {[and]:[
+          {publicationDatetime:datetime},
+          {id: {[lt]: delimiterItemId}}
+        ]},
+        {publicationDatetime: {[lt]: datetime}}
+      ]
+        }
+      ]
+    },
+      order: [['publicationDatetime', order],['id', order]],
+      limit: limit,
+      include: [ Author ]
+    })
 }
 
 
