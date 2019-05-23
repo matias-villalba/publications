@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "931adb92-2544-4304-bb2d-40959181bcb2",
+		"name": "Publications API - Sweatworks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authors",
+			"item": [
+				{
+					"name": "Create author",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Bruno\",\n  \"lastName\": \"Diaz\",\n  \"email\": \"bruno.diaz@gmail.com\",\n  \"birthdate\": \"1980-03-22T20:14:04.262Z\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}authors",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}authors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update author",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"authorId\", \"2\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Mario\",\n  \"lastName\": \"Sanchez\",\n  \"email\": \"mario.sanchez@gmail.com\",\n  \"birthdate\": \"1980-03-22T20:14:04.262Z\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}authors/{{authorId}}/",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}authors"
+							],
+							"path": [
+								"{{authorId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete author",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"authorId\", \"3\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}authors/{{authorId}}/",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}authors"
+							],
+							"path": [
+								"{{authorId}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get author by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"authorId\", \"2\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}authors/{{authorId}}",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}authors"
+							],
+							"path": [
+								"{{authorId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get authors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}authors",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}authors"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publications",
+			"item": [
+				{
+					"name": "Create publication",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"A title for this publication3\",\n  \"body\": \"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\",\n  \"author\": {\n  \t\t\t\"id\": 2\n\t\t\t},\n  \"publicationDatetime\": \"2019-05-18T23:04:20.884Z\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update publication",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"publicationId\", \"1\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"These engineers are the driving force behind Temasek’s digital transformation\",\n  \"body\": \"Temasek is a complex corporation. The Singapore-headquartered investment firm has 13 global offices and an international investment portfolio that was valued at US$235 billion in March last year. Among its various business units is a fledgling digital technology department called Root Access. Established in 2018, the team comprises engineers and technologists who aim to improve how Temasek operates as a firm by leveraging emerging technology.\",\n  \"publicationDatetime\": \"2019-05-18T23:04:20.884Z\"\n}"
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications/{{publicationId}}",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"path": [
+								"{{publicationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete publication",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"publicationId\", \"4\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications/{{publicationId}}",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"path": [
+								"{{publicationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get publication by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"publicationId\", \"1\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications/{{publicationId}}",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"path": [
+								"{{publicationId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get publication by title",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cb538bd3-c0b3-4abc-ae90-22b1687ae235",
+								"exec": [
+									"pm.environment.set(\"publicationTitle\", \"The Ma\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications/matches/titles?publicationTitle={{publicationTitle}}",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"path": [
+								"matches",
+								"titles"
+							],
+							"query": [
+								{
+									"key": "publicationTitle",
+									"value": "{{publicationTitle}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get publications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications?itemsPerPage=5",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"query": [
+								{
+									"key": "itemsPerPage",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get next page of publications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications?delimiterItemId=1356&itemsPerPage=5&sinceOrUntilDatetime=until&datetime=2019-05-16T08:44:53.000Z&newestFirst=true",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"query": [
+								{
+									"key": "delimiterItemId",
+									"value": "1356"
+								},
+								{
+									"key": "itemsPerPage",
+									"value": "5"
+								},
+								{
+									"key": "sinceOrUntilDatetime",
+									"value": "until"
+								},
+								{
+									"key": "datetime",
+									"value": "2019-05-16T08:44:53.000Z"
+								},
+								{
+									"key": "newestFirst",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get previous page of publications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications?delimiterItemId=3900&itemsPerPage=5&sinceOrUntilDatetime=since&datetime=2019-05-16T08:31:15.000Z&newestFirst=true",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"query": [
+								{
+									"key": "delimiterItemId",
+									"value": "3900"
+								},
+								{
+									"key": "itemsPerPage",
+									"value": "5"
+								},
+								{
+									"key": "sinceOrUntilDatetime",
+									"value": "since"
+								},
+								{
+									"key": "datetime",
+									"value": "2019-05-16T08:31:15.000Z"
+								},
+								{
+									"key": "newestFirst",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get summarized publications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{protocol-host-port}}{{basepath}}publications/summaries",
+							"host": [
+								"{{protocol-host-port}}{{basepath}}publications"
+							],
+							"path": [
+								"summaries"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
