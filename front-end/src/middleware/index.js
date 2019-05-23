@@ -1,7 +1,41 @@
 
-import {PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, NEXT_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS } from "../constants/action-types";
+import {
+  PUT_AUTHOR_DATA, CLEAR_AUTHOR_DATA, PUT_PAGE_PARAMS_AUTHOR_ID, CLEAR_PAGE_PARAMS_AUTHOR_ID
+  ,PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, NEXT_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS } from "../constants/action-types";
 import {ITEMS_PER_PAGE} from "../constants/configs"
 import {getData} from "../actions"
+
+
+ export function loadAuthorPublications( {dispatch, getState }) {
+  return function(next) {
+      return function(action) {
+          if (action.type === PUT_AUTHOR_DATA){
+            dispatch({type: PUT_PAGE_PARAMS_AUTHOR_ID, payload: action.payload.id} )            
+            dispatch(getData(getState().pagination.firstPageQuery ) )
+
+          }
+          return next(action)
+      }}
+  }
+
+  export function loadAllAuthorPublications( {dispatch, getState }) {
+    return function(next) {
+        return function(action) {
+            if (action.type === CLEAR_AUTHOR_DATA){
+              dispatch({type: CLEAR_PAGE_PARAMS_AUTHOR_ID, payload: undefined} )            
+              dispatch(getData(getState().pagination.firstPageQuery ) )  
+            }
+            return next(action)
+        }}
+    }
+  
+
+
+
+
+
+
+
 
 export function updatePublicationOrder( {dispatch, getState }) {
     return function(next) {

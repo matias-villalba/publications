@@ -1,4 +1,4 @@
-import {CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER, AUTHORS_LOADED, SEARCH_DATA_LOADED, NEXT_DATA_LOADED ,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS} from "../constants/action-types"
+import {CLEAR_PAGE_PARAMS_AUTHOR_ID, PUT_PAGE_PARAMS_AUTHOR_ID, CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER, AUTHORS_LOADED, SEARCH_DATA_LOADED, NEXT_DATA_LOADED ,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS} from "../constants/action-types"
 import {ITEMS_PER_PAGE, DEFAULT_NEWEST_FIRST} from "../constants/configs" 
 const initialState = {
     authors: [],
@@ -14,20 +14,24 @@ const initialState = {
       previousButton:false,
 
       nextPageQuery:{
+        authorId: undefined,
         itemsPerPage: ITEMS_PER_PAGE,
         sinceOrUntilDatetime: 'until',
         newestFirst: DEFAULT_NEWEST_FIRST
       },
       previousPageQuery:{
+        authorId: undefined,
         itemsPerPage: ITEMS_PER_PAGE,
         sinceOrUntilDatetime: 'since',
         newestFirst: !DEFAULT_NEWEST_FIRST
       },
       firstPageQuery: {
+        authorId: undefined,
         itemsPerPage: ITEMS_PER_PAGE,
         newestFirst: DEFAULT_NEWEST_FIRST,        
       },
       lastPageQuery: {
+        authorId: undefined,
         itemsPerPage: ITEMS_PER_PAGE,
         newestFirst: !DEFAULT_NEWEST_FIRST
       }
@@ -47,13 +51,71 @@ const initialState = {
       return { ...state, showNewestPublicationsFirst: action.payload }
     }
  
+
     if (action.type === PUT_AUTHOR_DATA) {      
-      return { ...state, currentAuthor: action.payload }
-    }
+      return { ...state,
+                 currentAuthor: action.payload
+              }
+
+    }    
+
     if (action.type === CLEAR_AUTHOR_DATA) {      
-      return { ...state, currentAuthor: {} }
+      return { ...state,
+               currentAuthor: {}
+              }
     }
-    
+    if(action.type === PUT_PAGE_PARAMS_AUTHOR_ID){
+      return { ...state,
+        pagination: {
+         ...state.pagination,
+           nextPageQuery:{
+           ...state.pagination.nextPageQuery,
+             authorId: action.payload
+           },
+
+           previousPageQuery:{
+             ...state.pagination.previousPageQuery,
+               authorId: action.payload
+           },
+           firstPageQuery:{
+             ...state.pagination.firstPageQuery,
+               authorId: action.payload
+           },
+           lastPageQuery:{
+             ...state.pagination.lastPageQuery,
+               authorId: action.payload
+           }
+
+         }
+     }
+
+
+    }
+    if(action.type === CLEAR_PAGE_PARAMS_AUTHOR_ID){
+      return { ...state,
+                pagination: {
+                ...state.pagination,
+                  nextPageQuery:{
+                  ...state.pagination.nextPageQuery,
+                    authorId: undefined
+                  },
+
+                  previousPageQuery:{
+                    ...state.pagination.previousPageQuery,
+                      authorId: undefined
+                  },
+                  firstPageQuery:{
+                    ...state.pagination.firstPageQuery,
+                      authorId: undefined
+                  },
+                  lastPageQuery:{
+                    ...state.pagination.lastPageQuery,
+                      authorId: undefined
+                  }
+                }
+              }
+
+    }
 
     if (action.type === NEWEST_DATA_LOADED) {      
         return { ...state, remotePublications: action.payload }
