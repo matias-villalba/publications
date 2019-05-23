@@ -29,7 +29,7 @@ export class Authors extends Component {
     return (
       <List component="nav" style={{maxHeight: '825px', overflow: 'scroll'}} >
             {this.props.authors.map(author => (
-              <AuthorButton id={author.id} firstName={author.firstName} lastName={author.lastName} email={author.email} birthdate={author.birthdate} />
+              <AuthorButton key={author.id} id={author.id} firstName={author.firstName} lastName={author.lastName} email={author.email} birthdate={author.birthdate} />
           ))}  
         </List>
 

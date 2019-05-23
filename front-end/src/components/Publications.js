@@ -12,6 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Search from "./Search"
 import AuthorCard from "./AuthorCard"
+import Grid from '@material-ui/core/Grid'
 
 const styles = theme => ({
   root: {
@@ -61,25 +62,35 @@ class Publications extends Component {
           }
           <AuthorCard/>
 
-          <NativeSelect defaultValue={this.props.showNewestPublicationsFirst} input={<Input name="name" id="publications-order" 
-            onChange={this.changePublicationsOrder}
-          />}>            
-            <option value={true}>Newest first</option>
-            <option value={false}>Oldest first</option>
-          </NativeSelect>
-          <FormHelperText>Order</FormHelperText>
+          {(this.props.showingASearchResult)?
+              ''
+              :          
+            <div>
+              <NativeSelect defaultValue={this.props.showNewestPublicationsFirst} input={<Input name="name" id="publications-order" 
+              onChange={this.changePublicationsOrder} />}>            
+              <option value={true}>Newest first</option>
+              <option value={false}>Oldest first</option>
+            </NativeSelect>
+            <FormHelperText>Order</FormHelperText>
+            </div>}
+
         </FormControl>
+        
 
+        <Post />
 
-            <Post />            
-        {this.props.previousButton ? (
-            <LoadPageButton label='Prev' load={this.loadPreviousPublications} />
-        ) : <div/> }
-
-        {this.props.nextButton ? (            
+        <Grid alignContent='center' container spacing={8}>
+          <Grid  item xs={4}>                        
+          {this.props.previousButton && !this.props.showingASearchResult? (
+              <LoadPageButton  label='Prev' load={this.loadPreviousPublications} />
+          ) : <div/> }
+        </Grid>
+        <Grid  item xs={4}>
+          {this.props.nextButton && !this.props.showingASearchResult? (            
             <LoadPageButton label='Next' load={this.loadNextPublications} />
             ) : <div/> }
-
+        </Grid>
+      </Grid>
         </div>
     );
   }
@@ -90,7 +101,7 @@ const mapStateToProps = state => {
            previousPageQuery: state.pagination.previousPageQuery,
            nextButton: state.pagination.nextButton,
             previousButton:state.pagination.previousButton,
-
+            showingASearchResult: state.showingASearchResult,
             currentAuthor: state.currentAuthor,
             showNewestPublicationsFirst: state.showNewestPublicationsFirst,
         };

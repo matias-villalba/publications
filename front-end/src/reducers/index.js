@@ -7,6 +7,7 @@ const initialState = {
 
     remotePublications: [],
     
+    showingASearchResult: false,
     showNewestPublicationsFirst: true,
     
     pagination: {
@@ -41,7 +42,9 @@ const initialState = {
   function rootReducer(state = initialState, action) {
 
     if (action.type === SEARCH_DATA_LOADED) {
-      return { ...state, remotePublications: action.payload }      
+      return { ...state,
+                showingASearchResult: true, 
+                remotePublications: action.payload }      
     }    
 
     if (action.type === AUTHORS_LOADED) {      
@@ -118,16 +121,28 @@ const initialState = {
     }
 
     if (action.type === NEWEST_DATA_LOADED) {      
-        return { ...state, remotePublications: action.payload }
+        return { ...state,
+                    showingASearchResult: false, 
+                    remotePublications: action.payload }
     }
 
     if (action.type === NEXT_DATA_LOADED) {
-      return (!action.payload || action.payload.length === 0)? state: 
-            { ...state, remotePublications: action.payload }
+      return (!action.payload || action.payload.length === 0)? 
+                { ...state,
+                  showingASearchResult: false}
+                  : 
+                { ...state,
+                  showingASearchResult: false, 
+                  remotePublications: action.payload }
     }
     if (action.type === PREVIOUS_DATA_LOADED) {            
-      return (!action.payload || action.payload.length === 0)? state:
-            { ...state, remotePublications: action.payload.reverse() }
+      return (!action.payload || action.payload.length === 0)?
+            { ...state,
+              showingASearchResult: false}
+             :
+            { ...state,
+              showingASearchResult: false, 
+              remotePublications: action.payload.reverse() }
     }
 
     if (action.type === PUT_ORDER_PARAMS) {

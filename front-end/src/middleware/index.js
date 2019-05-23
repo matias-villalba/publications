@@ -114,6 +114,8 @@ export function updatePreviousAndNextPageParams({ dispatch, getState }) {
             }
 
             if(!noPublications){
+                pagination.nextButton = true
+
                 pagination.nextPageQuery.delimiterItemId = (action.payload[0].id)
                 pagination.nextPageQuery.datetime = (action.payload[0].publicationDatetime)
 

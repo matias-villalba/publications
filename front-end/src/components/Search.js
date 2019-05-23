@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {searchPublicationsByTitle} from "../actions"
+import {searchPublicationsByTitle, getData} from "../actions"
 import uuidv1 from "uuid";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import ClearIcon from '@material-ui/icons/Clear';
 import DirectionsIcon from '@material-ui/icons/Directions';
 
 
@@ -38,12 +39,28 @@ const styles = {
   },
 };
 
-
+/*
 function mapDispatchToProps(dispatch) {
   return {
+    getAllPublications: firstPageQuery => getData(firstPageQuery),
+
     searchPublicationsByTitle: title => dispatch(searchPublicationsByTitle(title))    
   };
 }
+*/
+const mapDispatchToProps = {
+    getData,
+    searchPublicationsByTitle  
+  }
+
+
+const mapStateToProps = state => {
+  return{
+    firstPageQuery: state.pagination.firstPageQuery
+  }
+  
+}
+
 class Search extends Component {
   constructor() {
     super();
@@ -53,11 +70,15 @@ class Search extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleClear = this.handleClear.bind(this)
   }
   handleChange(event) {
-//    this.setState({ [event.target.id]: event.target.value });
   }
 
+  handleClear(){
+    this.setState({ titleToSearch: '' });
+    this.props.getData(this.props.firstPageQuery)
+  }
   handleSearch(event) {
     const publicationTitle = this.state.titleToSearch
     this.props.searchPublicationsByTitle({publicationTitle})
@@ -69,6 +90,9 @@ class Search extends Component {
     return (
         <Paper className={classes.root} elevation={1}>
 
+        <IconButton onClick={this.handleClear} className={classes.iconButton} aria-label="Clear"  >
+          <ClearIcon />
+        </IconButton>
         <InputBase value={this.state.titleToSearch} onChange={e => this.setState({ titleToSearch: e.target.value })}  className={classes.input} placeholder="Enter a publication title to search" />
         <IconButton className={classes.iconButton} aria-label="Search" onClick={this.handleSearch} >
           <SearchIcon />
@@ -79,4 +103,4 @@ class Search extends Component {
   }
 }
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(Search));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Search));
