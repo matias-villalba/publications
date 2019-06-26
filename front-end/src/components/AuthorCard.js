@@ -39,7 +39,6 @@ class AuthorCard extends Component {
 
   render () {
     const { classes } = this.props
-    const bull = <span className={classes.bullet}>•</span>
 
     return (this.props.currentAuthor && this.props.currentAuthor.id) ? (
       <Card className={classes.card}>

@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import ClearIcon from '@material-ui/icons/Clear'
-import DirectionsIcon from '@material-ui/icons/Directions'
 
 const styles = {
   root: {
@@ -34,15 +33,6 @@ const styles = {
   }
 }
 
-/*
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllPublications: firstPageQuery => getData(firstPageQuery),
-
-    searchPublicationsByTitle: title => dispatch(searchPublicationsByTitle(title))
-  };
-}
-*/
 const mapDispatchToProps = {
   getData,
   searchPublicationsByTitle

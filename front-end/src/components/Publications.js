@@ -6,7 +6,6 @@ import Post from './Posts'
 import { withStyles } from '@material-ui/core/styles'
 
 import Input from '@material-ui/core/Input'
-import Divider from '@material-ui/core/Divider'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
 import NativeSelect from '@material-ui/core/NativeSelect'
