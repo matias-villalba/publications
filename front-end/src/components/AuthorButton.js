@@ -38,7 +38,6 @@ export class AuthorButton extends Component {
   }
 
   render () {
-    const { classes } = this.props
     return (
       <ListItem button key={this.props.id} >
         <ListItemText onClick={this.handleClick} primary={this.props.firstName.concat(' ').concat(this.props.lastName)} secondary={this.props.email} />
@@ -48,14 +47,6 @@ export class AuthorButton extends Component {
     )
   }
 }
-
-/*
-            {author.firstName}
-             {author.lastName}
-             {author.email}
-
-             <Moment format="dddd, MMMM Do YYYY">{author.birthdate}</Moment>
-             */
 
 function mapDispatchToProps (dispatch) {
   return {

@@ -14,14 +14,10 @@ const styles = theme => ({
 })
 
 export class Authors extends Component {
-  constructor () {
-    super()
-  }
   componentDidMount () {
     this.props.getAuthors()
   }
   render () {
-    const { classes } = this.props
     return (
       <List component='nav' style={{ maxHeight: '825px', overflow: 'scroll' }} >
         {this.props.authors.map(author => (
@@ -32,14 +28,6 @@ export class Authors extends Component {
     )
   }
 }
-
-/*
-            {author.firstName}
-             {author.lastName}
-             {author.email}
-
-             <Moment format="dddd, MMMM Do YYYY">{author.birthdate}</Moment>
-             */
 
 function mapStateToProps (state) {
   return {

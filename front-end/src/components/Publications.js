@@ -46,7 +46,7 @@ class Publications extends Component {
 
   changePublicationsOrder (event) {
     const newestFirst = event.target.value
-    this.props.changePublicationsOrder((newestFirst == 'true'))
+    this.props.changePublicationsOrder((newestFirst === 'true'))
   }
 
   render () {
