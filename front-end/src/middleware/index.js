@@ -36,8 +36,8 @@ export function updatePublicationOrder ({ dispatch, getState }) {
         const newestFirst = action.payload
 
         const pagination = {
-          nextButton: newestFirst,
-          previousButton: !newestFirst,
+          nextButton: true,
+          previousButton: false,
 
           nextPageQuery: {
             sinceOrUntilDatetime: (newestFirst ? 'until' : 'since'),
@@ -74,8 +74,8 @@ export function updatePreviousAndNextPageParams ({ dispatch, getState }) {
           pagination = {
 
             nextButton: !((action.payload.length < ITEMS_PER_PAGE)),
-            nextPageQuery: {},
-            previousPageQuery: {}
+            nextPageQuery: getState().pagination.nextPageQuery,
+            previousPageQuery: getState().pagination.previousPageQuery
           }
           if (!noPublications) {
             pagination.nextPageQuery.delimiterItemId = (action.payload[action.payload.length - 1].id)
@@ -86,7 +86,8 @@ export function updatePreviousAndNextPageParams ({ dispatch, getState }) {
           }
 
           if (action.type === NEWEST_DATA_LOADED) {
-            pagination.previousButton = getState().pagination.previousButton
+            //            pagination.previousButton = getState().pagination.previousButton
+            pagination.previousButton = false
           } else {
             pagination.previousButton = action.payload.length > 0 ? true : getState().pagination.previousButton
           }
@@ -96,8 +97,8 @@ export function updatePreviousAndNextPageParams ({ dispatch, getState }) {
           pagination = {
             previousButton: (action.payload.length < ITEMS_PER_PAGE) ? false : getState().pagination.previousButton,
             nextButton: getState().pagination.nextButton,
-            nextPageQuery: {},
-            previousPageQuery: {}
+            nextPageQuery: getState().pagination.nextPageQuery,
+            previousPageQuery: getState().pagination.previousPageQuery
           }
 
           if (!noPublications) {
