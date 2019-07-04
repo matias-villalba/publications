@@ -1,35 +1,35 @@
 'use strict'
 const Sequelize = require('sequelize')
 const sequelize = require('../db/connection')
-const Author = require('./Author');
+const Author = require('./Author')
 
-const {and, or, lt, gt, startsWith} = Sequelize.Op
+const { and, or, lt, gt } = Sequelize.Op
 
 class Publication extends Sequelize.Model {}
 Publication.init({
-  title: {type: Sequelize.STRING, allowNull: false},
-  body: {type: Sequelize.TEXT, allowNull: false },
-  publicationDatetime: {type: Sequelize.DATE, allowNull: false},
-  authorId: {type: Sequelize.INTEGER}
+  title: { type: Sequelize.STRING, allowNull: false },
+  body: { type: Sequelize.TEXT, allowNull: false },
+  publicationDatetime: { type: Sequelize.DATE, allowNull: false },
+  authorId: { type: Sequelize.INTEGER }
 }, {
   // don't add the timestamp attributes (updatedAt, createdAt)
   timestamps: false,
   underscored: true,
-  sequelize, modelName: 'publication' });
-
+  sequelize,
+  modelName: 'publication' })
 
 Publication.findWithSummarizedBody = () => {
-   return Publication.findAll({ include: [ Author ], attributes: {
+  return Publication.findAll({ include: [ Author ],
+    attributes: {
       include: [[sequelize.fn('LEFT', sequelize.col('body'), 40), 'summarizedBody']],
       exclude: ['body', 'authorId']
-      }
-   })
+    }
+  })
 }
-
 
 Publication.findOrderByDatetime = (limit, order) => {
   return Publication.findAll({
-    order: [['publicationDatetime', order],['id', order]],
+    order: [['publicationDatetime', order], ['id', order]],
     limit: limit,
     include: [ Author ]
   })
@@ -37,111 +37,98 @@ Publication.findOrderByDatetime = (limit, order) => {
 
 Publication.findByAuthorIdOrderByDatetime = (limit, order, authorId) => {
   return Publication.findAll({
-    where:{authorId:authorId},
-    order: [['publicationDatetime', order],['id', order]],
+    where: { authorId: authorId },
+    order: [['publicationDatetime', order], ['id', order]],
     limit: limit,
     include: [ Author ]
   })
 }
 
-
-
 Publication.findByTitle = (limit, title) => {
-
-  return Publication.findAll({include: [ Author ],
+  return Publication.findAll({ include: [ Author ],
     where: Sequelize.where(
-      Sequelize.fn("lower", Sequelize.col("title")),
-      { [Sequelize.Op.like]: Sequelize.fn("lower", title+'%') }
+      Sequelize.fn('lower', Sequelize.col('title')),
+      { [Sequelize.Op.like]: Sequelize.fn('lower', title + '%') }
     ),
-    order: [['title', 'ASC'],['authorId', 'ASC']],
-    limit: limit,
-  });
-
-
+    order: [['title', 'ASC'], ['authorId', 'ASC']],
+    limit: limit
+  })
 }
 
-
 Publication.findByAuthorSinceADate = (limit, order, datetime, delimiterItemId, authorId) => {
-  return Publication.findAll({where: {
-    [and]:[
-      {authorId:authorId},
+  return Publication.findAll({ where: {
+    [and]: [
+      { authorId: authorId },
       {
-    [or]:[
-      {[and]:[
-        {publicationDatetime:datetime},
-        {id: {[gt]: delimiterItemId}}
-      ]},
-      {publicationDatetime: {[gt]: datetime}}
-    ]
+        [or]: [
+          { [and]: [
+            { publicationDatetime: datetime },
+            { id: { [gt]: delimiterItemId } }
+          ] },
+          { publicationDatetime: { [gt]: datetime } }
+        ]
 
       }
     ]
   },
-    order: [['publicationDatetime', order],['id', order]],
-    limit: limit,
-    include: [ Author ]
+  order: [['publicationDatetime', order], ['id', order]],
+  limit: limit,
+  include: [ Author ]
   })
-
 }
 
 Publication.findByAuthorUntilADate = (limit, order, datetime, delimiterItemId, authorId) => {
-    return Publication.findAll({where: {
-      [and]:[
-        {authorId:authorId},
-        {
-      [or]:[
-        {[and]:[
-          {publicationDatetime:datetime},
-          {id: {[lt]: delimiterItemId}}
-        ]},
-        {publicationDatetime: {[lt]: datetime}}
-      ]
-        }
-      ]
-    },
-      order: [['publicationDatetime', order],['id', order]],
-      limit: limit,
-      include: [ Author ]
-    })
+  return Publication.findAll({ where: {
+    [and]: [
+      { authorId: authorId },
+      {
+        [or]: [
+          { [and]: [
+            { publicationDatetime: datetime },
+            { id: { [lt]: delimiterItemId } }
+          ] },
+          { publicationDatetime: { [lt]: datetime } }
+        ]
+      }
+    ]
+  },
+  order: [['publicationDatetime', order], ['id', order]],
+  limit: limit,
+  include: [ Author ]
+  })
 }
 
-
-
 Publication.findUntilADate = (limit, order, datetime, delimiterItemId) => {
-  return Publication.findAll({where: {
-                                      [or]:[
-                                        {[and]:[
-                                            {publicationDatetime:datetime},
-                                            {id: {[lt]: delimiterItemId}}
-                                        ]},
-                                        {publicationDatetime: {[lt]: datetime}}
-                                      ]
-                                },
-                            order: [['publicationDatetime', order],['id', order]],
-                            limit: limit,
-                            include: [ Author ]
-                            })
+  return Publication.findAll({ where: {
+    [or]: [
+      { [and]: [
+        { publicationDatetime: datetime },
+        { id: { [lt]: delimiterItemId } }
+      ] },
+      { publicationDatetime: { [lt]: datetime } }
+    ]
+  },
+  order: [['publicationDatetime', order], ['id', order]],
+  limit: limit,
+  include: [ Author ]
+  })
 }
 
 Publication.findSinceADate = (limit, order, datetime, delimiterItemId) => {
-  return Publication.findAll({where: {
-    [or]:[
-      {[and]:[
-        {publicationDatetime:datetime},
-        {id: {[gt]: delimiterItemId}}
-      ]},
-      {publicationDatetime: {[gt]: datetime}}
+  return Publication.findAll({ where: {
+    [or]: [
+      { [and]: [
+        { publicationDatetime: datetime },
+        { id: { [gt]: delimiterItemId } }
+      ] },
+      { publicationDatetime: { [gt]: datetime } }
     ]
   },
-    order: [['publicationDatetime', order],['id', order]],
-    limit: limit,
-    include: [ Author ]
+  order: [['publicationDatetime', order], ['id', order]],
+  limit: limit,
+  include: [ Author ]
   })
-
 }
-
-
-
 
 module.exports = Publication
 
