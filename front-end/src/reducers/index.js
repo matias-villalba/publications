@@ -1,5 +1,86 @@
+import { combineReducers } from 'redux'
+import entities, {entitiesState}  from './entities'
+import publicationsPage, {publicationsPageState}  from './publicationsPage'
+
 import {CLEAR_PAGE_PARAMS_AUTHOR_ID, PUT_PAGE_PARAMS_AUTHOR_ID, CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, PUT_ORDER_PARAMS, CHANGE_PUBLICATIONS_ORDER, AUTHORS_LOADED, SEARCH_DATA_LOADED, NEXT_DATA_LOADED ,NEWEST_DATA_LOADED, PREVIOUS_DATA_LOADED, PUT_NEXT_AND_PREVIOUS_PAGE_PARAMS} from "../constants/action-types"
 import {ITEMS_PER_PAGE, DEFAULT_NEWEST_FIRST} from "../constants/configs" 
+
+
+const initialState = {
+  publicationsPage: publicationsPageState, 
+  entities: entitiesState
+}
+
+export default combineReducers({
+    publicationsPage,
+    entities
+  })
+
+/*
+const initialSta = {
+  publicationsPage: {
+    searchFilter:{
+      searchByTitleIsActive: true, 
+      selectedAuthorId: undefined,  // if it is undefined then page will have publications of any author
+    },
+
+    publications:{
+      ids: [],  // publications ids ordered by publication date (these will be ordered only if order.active = true)
+      order: {
+        active: true,  // lo que antes era showingASearchResult ahora es active invertido
+        showingNewestFirst: true,  // this is the publications order. True:newest publications first. False:oldest publications first
+      },
+    },
+//    showingASearchResult: false,
+    navigation:{
+      buttons: {
+        nextPageIsActive: true,
+        previousPageIsActive: false        
+      },
+      queryParams:{
+        nextPageParams:{
+          authorId: undefined,
+          itemsPerPage: ITEMS_PER_PAGE,
+          sinceOrUntilDatetime: 'until',
+          newestFirst: DEFAULT_NEWEST_FIRST
+        },
+        previousPageParams:{
+          authorId: undefined,
+          itemsPerPage: ITEMS_PER_PAGE,
+          sinceOrUntilDatetime: 'since',
+          newestFirst: !DEFAULT_NEWEST_FIRST
+        },
+        firstPageParams: {
+          authorId: undefined,
+          itemsPerPage: ITEMS_PER_PAGE,
+          newestFirst: DEFAULT_NEWEST_FIRST,        
+        },
+        lastPageParams: {
+          authorId: undefined,
+          itemsPerPage: ITEMS_PER_PAGE,
+          newestFirst: !DEFAULT_NEWEST_FIRST
+        }
+
+      }
+
+    } 
+  },
+  entities: {
+    authors: {
+      byId:{
+      }
+    },
+    publications: {
+      byId:{
+      }
+    }
+  }
+
+}
+//-------------
+
+
+
 const initialState = {
     authors: [],
 
@@ -209,3 +290,5 @@ const initialState = {
     return state;
   };
   export default rootReducer;
+
+  */

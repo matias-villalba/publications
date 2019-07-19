@@ -33,11 +33,11 @@ class Publications extends Component {
     super();
 
     this.changePublicationsOrder = this.changePublicationsOrder.bind(this) 
-    this.loadNextPublications = this.loadNextPublications.bind(this)
+    //TODO cambiar las otras usando las arrow function sin usar bind
     this.loadPreviousPublications = this.loadPreviousPublications.bind(this)
   }
 
-  loadNextPublications(){
+  loadNextPublications = () =>{
     this.props.loadNextPublications(this.props.nextPageQuery);
   }
 
@@ -51,7 +51,7 @@ class Publications extends Component {
   }
   
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props; //traer lo que voy a usar de this.props, para evitar agregarlo cadda vez
     return (
       
         <div>
@@ -109,7 +109,7 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
     return {
-      loadNextPublications: nextPageQuery => dispatch(loadNextPublications(nextPageQuery)),
+      loadNextPublications: nextPageQuery => dispatch(loadNextPublications(nextPageQuery)), //dispacth en las actions
       loadPreviousPublications: previousPageQuery => dispatch(loadPreviousPublications(previousPageQuery)),
       changePublicationsOrder: newestFirst => dispatch(changePublicationsOrder(newestFirst))
 

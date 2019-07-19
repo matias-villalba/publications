@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {searchPublicationsByTitle, getData} from "../actions"
+import {fetchPublicationsByTitle, getData} from "../actions/publications"
+import {resetSearchFilter} from '../actions/searchFilter'
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -35,18 +36,10 @@ const styles = {
   },
 };
 
-/*
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllPublications: firstPageQuery => getData(firstPageQuery),
-
-    searchPublicationsByTitle: title => dispatch(searchPublicationsByTitle(title))    
-  };
-}
-*/
 const mapDispatchToProps = {
     getData,
-    searchPublicationsByTitle  
+    resetSearchFilter,
+    fetchPublicationsByTitle  
   }
 
 
@@ -72,12 +65,13 @@ class Search extends Component {
   }
 
   handleClear(){
-    this.setState({ titleToSearch: '' });
+    this.setState({ titleToSearch: '' })
+    this.props.resetSearchFilter() 
     this.props.getData(this.props.firstPageQuery)
   }
   handleSearch(event) {
     const publicationTitle = this.state.titleToSearch
-    this.props.searchPublicationsByTitle({publicationTitle})
+    this.props.fetchPublicationsByTitle({publicationTitle})
   }
 
 

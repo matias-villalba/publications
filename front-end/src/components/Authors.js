@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAuthors } from "../actions/index";
+import { fetchAuthors } from "../actions/authors";
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,7 +22,7 @@ export class Authors extends Component {
     super();
   }
   componentDidMount() {
-    this.props.getAuthors()
+    this.props.fetchAuthors()
   }
   render() {
     const { classes } = this.props;
@@ -37,23 +37,17 @@ export class Authors extends Component {
   }
 }
 
-
-/*
-            {author.firstName}
-             {author.lastName}
-             {author.email}            
-            
-             <Moment format="dddd, MMMM Do YYYY">{author.birthdate}</Moment>
-             */ 
-
 function mapStateToProps(state) {
   return {
     authors: state.authors
-  };
+  }
 }
 
+function mapDispatchToProps() {
+  return { fetchAuthors }
+}
 
 export default withStyles(styles) (connect(
   mapStateToProps,
-  { getAuthors }
+  mapDispatchToProps
 )(Authors))

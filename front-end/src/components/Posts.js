@@ -30,9 +30,7 @@ const styles = theme => ({
 
 
 export class Post extends Component {
-  constructor() {
-    super();
-  }
+
   state = {
     expanded: null,
   };
@@ -81,5 +79,5 @@ function mapStateToProps(state) {
 export default withStyles(styles)(
 connect(
   mapStateToProps,
-  { getData }
+  { getData } //TODO usar/definir el mapDispatchToProps
 )(Post))

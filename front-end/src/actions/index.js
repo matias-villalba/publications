@@ -1,7 +1,6 @@
 import {CLEAR_AUTHOR_DATA, PUT_AUTHOR_DATA, CHANGE_PUBLICATIONS_ORDER, NEXT_DATA_LOADED, PREVIOUS_DATA_LOADED } from "../constants/action-types";
 import axios from "axios";
 
-
 const HOST = process.env.REACT_APP_API_HOST_AND_PORT
 
   export function clearAuthorCard(payload) {
